@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>კომერციული შეთავაზება — GeoLab · The art of using AI</title>
+  <meta name="description" content="GeoLab-ის კომერციული შეთავაზების (One-Pager) გენერატორი პროგრამისთვის „The art of using AI“." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar no-print">
+    <div class="brand">
+      <img src="logo.png" alt="The art of using AI" class="brand-logo" />
+      <span class="brand-divider"></span>
+      <span class="brand-title">შეთავაზების გენერატორი</span>
+    </div>
+    <button id="btn-print" class="btn btn-primary" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      PDF-ად შენახვა / ბეჭდვა
+    </button>
+  </header>
+
+  <main class="workspace">
+    <!-- EDITOR -->
+    <section class="editor no-print" aria-label="რედაქტორი">
+      <div class="card">
+        <div class="card-head"><span class="step">01</span><h2>კლიენტი ორგანიზაციის ინფორმაცია</h2></div>
+        <label class="field">
+          <span>კლიენტი ორგანიზაციის სახელი</span>
+          <input id="in-client" type="text" placeholder="მაგ. შპს „ინოვაცია“" />
+        </label>
+        <label class="field">
+          <span>მოკლე აღწერა</span>
+          <textarea id="in-desc" rows="4" placeholder="შეთავაზების მიზანი და მოკლე აღწერა…"></textarea>
+        </label>
+        <label class="field">
+          <span>თარიღი</span>
+          <input id="in-date" type="date" />
+        </label>
+      </div>
+
+      <div class="card">
+        <div class="card-head between">
+          <div class="card-head"><span class="step">02</span><h2>პროდუქტები და ფასების კალკულაცია</h2></div>
+          <div class="segmented" role="radiogroup" aria-label="ვალუტა">
+            <button type="button" id="cur-gel" class="seg active" data-cur="GEL">₾ GEL</button>
+            <button type="button" id="cur-usd" class="seg" data-cur="USD">$ USD</button>
+          </div>
+        </div>
+        <div class="items-head">
+          <span>პროდუქტის დასახელება</span><span>რაოდენობა</span><span>ერთეულის ფასი</span><span class="r">ჯამი</span><span></span>
+        </div>
+        <div id="items" class="items"></div>
+        <button id="btn-add" type="button" class="btn btn-ghost">+ პროდუქტის დამატება</button>
+        <div class="editor-total">
+          <span>სულ ჯამი</span><strong id="ed-total" class="num">0</strong>
+        </div>
+      </div>
+      <p class="hint">რჩევა: ბეჭდვის ფანჯარაში აირჩიეთ „Save as PDF“, ზომა A4 და ჩართეთ „Background graphics“.</p>
+    </section>
+
+    <!-- PREVIEW -->
+    <section class="preview" aria-label="გადახედვა">
+      <div class="sheet-wrap">
+        <article class="sheet" id="sheet">
+          <div class="accent-bar"></div>
+          <header class="doc-head">
+            <img src="logo.png" alt="The art of using AI — logo" class="doc-logo" />
+            <div class="doc-meta">
+              <div class="doc-kicker">კომერციული შეთავაზება</div>
+              <div class="doc-org">GeoLab</div>
+              <div class="doc-date num" id="pv-date"></div>
+            </div>
+          </header>
+
+          <section class="doc-hero">
+            <div class="label">ადრესატი</div>
+            <h1 id="pv-client">კლიენტი ორგანიზაცია</h1>
+            <p id="pv-desc" class="doc-desc"></p>
+          </section>
+
+          <section class="program">
+            <div class="program-tag">პროგრამის შესახებ</div>
+            <h3 class="program-title">The art of using AI</h3>
+            <p>ეს არის შერჩეული საგანმანათლებლო პროგრამა ადამიანის შემოქმედებისა და ხელოვნური ინტელექტის გზაჯვარედინზე, შექმნილი ცნობისმოყვარე ადამიანებისთვის, რომლებიც მზად არიან მომავლის შესაქმნელად.</p>
+          </section>
+
+          <section class="pricing">
+            <div class="label">ფასების კალკულაცია</div>
+            <table>
+              <thead>
+                <tr><th class="c-n">#</th><th>პროდუქტის დასახელება</th><th class="r">რაოდენობა</th><th class="r">ერთეულის ფასი</th><th class="r">ჯამი</th></tr>
+              </thead>
+              <tbody id="pv-rows"></tbody>
+            </table>
+            <div class="grand">
+              <span>სულ ჯამი</span>
+              <strong id="pv-total" class="num"></strong>
+            </div>
+          </section>
+
+          <footer class="doc-foot">
+            <span><b>GeoLab</b> · The art of using AI</span>
+            <span>შეთავაზება ძალაშია 30 დღის განმავლობაში</span>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <template id="row-tpl">
+    <div class="item">
+      <input class="i-name" type="text" placeholder="მაგ. AI სემინარი" aria-label="პროდუქტის დასახელება" />
+      <input class="i-qty num" type="number" min="1" step="1" value="1" aria-label="რაოდენობა" />
+      <input class="i-price num" type="number" min="0" step="0.01" placeholder="0.00" aria-label="ერთეულის ფასი" />
+      <span class="i-total num r">0</span>
+      <button type="button" class="i-del" aria-label="წაშლა">×</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
